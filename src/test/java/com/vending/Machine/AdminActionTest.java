@@ -3,6 +3,8 @@ package com.vending.Machine;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -43,6 +45,18 @@ public class AdminActionTest {
         assertEquals(expectedAddInventory, addQuantity);
         assertEquals(4, skittlesCheck.quantity());
 
+    }
+
+    @Test
+    public void shouldReturnLowInventoryProducts(){
+        Product snickers =  new Product("snickers", 1.00, 10);
+        MockDatabase.addProduct(snickers);
+        Product MM =  new Product("M&M's", 1.00, 3);
+        MockDatabase.addProduct(MM);
+
+        List<Product> lowInventory = adminAction.getLowInventory();
+
+        assertEquals(2, lowInventory.size());
     }
 
 }

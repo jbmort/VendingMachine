@@ -3,6 +3,8 @@ package com.vending.Machine;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.List;
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MockDatabaseTest {
@@ -86,5 +88,12 @@ public class MockDatabaseTest {
         assertEquals(0, product.quantity());
         assertTrue(status);
         assertFalse(status2);
+    }
+
+    @Test
+    public void shouldReturnFullInventory(){
+        List<Product> inventory = MockDatabase.getProducts();
+
+        assertEquals(1, inventory.size());
     }
 }

@@ -1,5 +1,7 @@
 package com.vending.Machine;
 
+import java.util.List;
+
 public class AdminAction {
 
     public String addProduct(Product product){
@@ -11,4 +13,12 @@ public class AdminAction {
         }
         return "New Product Added To Inventory";
     }
+
+    public List<Product> getLowInventory(){
+        List<Product> products = MockDatabase.getProducts();
+
+        return MockDatabase.getProducts().stream().filter((product) -> product.quantity() < 5).toList();
+    }
+
+    // Add function to get amount of money collected in the machine once a class has been defined to track
 }

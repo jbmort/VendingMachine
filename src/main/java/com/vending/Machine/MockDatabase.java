@@ -74,11 +74,15 @@ public class MockDatabase {
             boolean productPurchased = product.purchase();
             if (productPurchased) {
                 MockDatabase.products.add(product);
-                double change = moneyInput - productToBuy.price();
+                // add product.price() to new class to keep track of payment collected by the machine
                 return true;
             }
         }
         return false;
 
+    }
+
+    public static List<Product> getProducts() {
+        return products.stream().toList();
     }
 }
