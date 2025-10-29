@@ -20,14 +20,21 @@ public class UserSelection {
 
     public String BuyItem(String selection, double moneyInput) {
         Product productToBuy = MockDatabase.getProduct(selection);
+        double change = 0.0;
+        String changeString = "";
 
 //        verify product exists
         if (productToBuy.name().isEmpty() || productToBuy.price() > moneyInput) {
             return "Purchase not successful";
         }
-
+        boolean purchaseStatus = MockDatabase.buyProduct(productToBuy, moneyInput);
+        if(purchaseStatus){
+            change = moneyInput - productToBuy.price();
+            changeString = String.format("%.2f", change);
+        }
 //        attempt to purchase product
-        return MockDatabase.buyProduct(productToBuy, moneyInput);
+        return purchaseStatus ? "Congratulations! You have successfully purchased " + productToBuy.name() + ". Your change is $" + changeString :
+                                "Purchase not successful";
     }
 
 }

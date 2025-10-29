@@ -35,15 +35,15 @@ public class UserSelectionTest {
     }
 
     @Test
-    void shouldAllowUserToBuyItemIfEnoughMoney() {
-        String expectedMessage = "Congratulations! You have successfully purchased skittles. Your change is $2.0.";
+    public void shouldAllowUserToBuyItemIfEnoughMoney() {
+        String expectedMessage = "Congratulations! You have successfully purchased skittles. Your change is $2.00";
         String message = this.selection.BuyItem("skittles", 3.00);
 
         assertEquals(expectedMessage, message);
     }
 
     @Test
-    void shouldNotAllowUserToBuyItemIfNotEnoughMoney() {
+    public void shouldNotAllowUserToBuyItemIfNotEnoughMoney() {
         String expectedString = "Purchase not successful";
         String message = this.selection.BuyItem("skittles", .50);
 

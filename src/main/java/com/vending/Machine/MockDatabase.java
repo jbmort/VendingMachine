@@ -17,7 +17,20 @@ public class MockDatabase {
     }
 
     public static void addProduct(Product product) {
-        MockDatabase.products.add(product);
+        boolean productExists = MockDatabase.ProductExists(product.name());
+        if(!productExists) {
+            MockDatabase.products.add(product);
+        }
+        else {
+            Product currentItem = MockDatabase.getProduct(product.name());
+            Product newItem = new Product(
+                    product.name().toLowerCase(),
+                    product.price(),
+                    product.quantity() + currentItem.quantity());
+            MockDatabase.products.remove(currentItem);
+            MockDatabase.products.add(newItem);
+        }
+
     }
 
     public static boolean ProductExists(String productName) {
@@ -51,7 +64,7 @@ public class MockDatabase {
         return productToReturn;
     }
 
-    public static String buyProduct(Product productToBuy, double moneyInput) {
+    public static boolean buyProduct(Product productToBuy, double moneyInput) {
         // check for product and verify there is enough money for it
         double price = productToBuy.price();
         Product product = getProduct(productToBuy.name());
@@ -62,10 +75,10 @@ public class MockDatabase {
             if (productPurchased) {
                 MockDatabase.products.add(product);
                 double change = moneyInput - productToBuy.price();
-                return "Congratulations! You have successfully purchased " + productToBuy.name() + ". Your change is $" + change + ".";
+                return true;
             }
         }
-        return "Purchase not successful";
+        return false;
 
     }
 }

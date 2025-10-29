@@ -39,6 +39,26 @@ public class MockDatabaseTest {
     }
 
     @Test
+    public void shouldAddExtraInventoryOfProduct() {
+        MockDatabase.addProduct(product);
+        int inventory = MockDatabase.getProduct(product.name()).quantity();
+
+        assertEquals(2, inventory);
+    }
+
+    @Test
+    public void shouldAddNewProduct() {
+        Product newProduct = new Product("snickers", 1.00, 1);
+        MockDatabase.addProduct(newProduct);
+
+        boolean exists = MockDatabase.ProductExists("snickers");
+
+        assertTrue(exists);
+
+
+    }
+
+    @Test
     public void shouldReturnProduct(){
         Product product = MockDatabase.getProduct("Skittles");
 
@@ -48,29 +68,23 @@ public class MockDatabaseTest {
     }
 
     @Test
-    public void shouldReturnMessageOnPurchaseStatus(){
-        String message = MockDatabase.buyProduct(product, 3.00);
-        String message2 = MockDatabase.buyProduct(product, .5);
-        String expectedPositiveMessage = "Congratulations! You have successfully purchased skittles. Your change is $2.0.";
-        String expectedNegativeMessage = "Purchase not successful";
+    public void shouldReturnPurchaseStatus(){
+        boolean status = MockDatabase.buyProduct(product, 3.00);
+        boolean status2 = MockDatabase.buyProduct(product, .5);
 
-
-        assertNotNull(message);
-        assertEquals(expectedPositiveMessage, message);
-        assertEquals(expectedNegativeMessage, message2);
+        assertTrue(status);
+        assertFalse(status2);
     }
 
     @Test
     public void shouldDecrementQuantityAndRestrictPurchaseIfQuantityIsZero(){
-        String message = MockDatabase.buyProduct(product, 1.00);
-        String message2 = MockDatabase.buyProduct(product, 1.00);
-        String expectedPositive = "Congratulations! You have successfully purchased skittles. Your change is $0.0.";
-        String expectedNegativeMessage = "Purchase not successful";
+        boolean status = MockDatabase.buyProduct(product, 1.00);
+        boolean status2 = MockDatabase.buyProduct(product, 1.00);
 
         Product product = MockDatabase.getProduct("Skittles");
 
         assertEquals(0, product.quantity());
-        assertEquals(expectedPositive, message);
-        assertEquals(expectedNegativeMessage, message2);
+        assertTrue(status);
+        assertFalse(status2);
     }
 }
